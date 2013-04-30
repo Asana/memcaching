@@ -20,11 +20,11 @@ test("can talk to memcache", function(t) {
     t.equals(values.foo.value.toString(), 'baz', "should get correct value")
     t.type(values.bar, 'undefined', "should get no result for key that wasn't set")
   })
-  client.del("foo", function(err, result) {
+  client.remove("foo", function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, 'DELETED', "should get DELETED on successful delete")
   })
-  client.del("bar", function(err, result) {
+  client.remove("bar", function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, 'NOT_FOUND', "should get NOT_FOUND on deleting non-existent key")
   })

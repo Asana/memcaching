@@ -16,7 +16,34 @@ test("read delimited messages", function(t) {
     })
   })
 
-  stream.write("msg1\r\nmsg1----msg2----msg2----")
+  setTimeout(function() {
+    stream.write("msg1\r\nms")
+    setTimeout(function() {
+      stream.write("g1----msg2----msg2----")
+    }, 5)
+  }, 5)
+})
+
+test("process messages in-order", function(t) {
+  var stream = PassThrough()
+    , testStream = DelimitedStream(stream, " ")
+
+  stream.write("hello ")
+
+  testStream.recv(11, function(err, msg1) {
+    t.error(err, "no error")
+    t.equal(msg1.toString(), "hello world", "msg1 should arrive first")
+  })
+
+  testStream.recv(function(err, msg2) {
+    t.error(err, "no error")
+    t.equal(msg2.toString(), "this", "msg2 should arrive second")
+    t.end()
+  })
+
+  setTimeout(function() {
+    stream.write("world this is a stream of text")
+  }, 5)
 })
 
 test("write delimited messages", function(t) {
