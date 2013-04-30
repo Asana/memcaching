@@ -10,7 +10,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "buffers": "~0.1.1"
+    "buffers": "~0.1.1",
+    "hashring": "~1.0.1"
   },
   "devDependencies": {
     "tap": "~0.4.2"

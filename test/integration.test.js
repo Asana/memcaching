@@ -4,7 +4,7 @@ var MemcacheClient = require('../lib/memcacheclient')
 console.log("This test requires a running memcache server on port 11211")
 
 test("can talk to memcache", function(t) {
-  var client = new MemcacheClient()
+  var client = new MemcacheClient({ servers: {'127.0.0.1:11211': '10'}})
   client.set("foo", "bar", function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "STORED", "should get result STORED for a SET")
