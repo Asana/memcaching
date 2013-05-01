@@ -13,12 +13,10 @@ test("can talk to memcache", function(t) {
     t.error(err, "should get no error")
     t.type(result, 'undefined', "should get result undefined for NOREPLY")
   })
-  client.get("foo", function(err, response) {
+  client.mget(["foo", "bar"], function(err, response) {
     t.error(err, "should get no error")
-    t.type(response, 'object', "should get results for key that was set")
-    t.equals(response.flags, 1, "should get correct flags")
-    t.equals(response.value.toString(), 'baz', "should get correct value")
-    t.end()
+    t.equals(response.length, 1, "only get one response")
+    t.same(response[0].slice(0,3), ["foo", "baz", 1])
   })
   client.remove("foo", function(err, result) {
     t.error(err, "should get no error")
@@ -34,8 +32,8 @@ test("can talk to memcache", function(t) {
   })
   client.get("foo", function(err, response) {
     t.error(err, "should get no error")
-    t.equals(response.value.toString(), "bär", "should get the result as a string")
-    t.equals(response.flags, 0, "should get the right flags")
+    t.equals(response[0], "bär", "should get the result as a string")
+    t.equals(response[1], 0, "should get the right flags")
     t.end()
     client.close()
   })
