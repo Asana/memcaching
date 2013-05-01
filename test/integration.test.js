@@ -4,21 +4,21 @@ var MemcacheClient = require('../lib/memcacheclient')
 console.log("This test requires a running memcache server on port 11211")
 
 test("can talk to memcache", function(t) {
-  var client = new MemcacheClient({ servers: {'127.0.0.1:11211': '10'}})
-  client.set("foo", "bar", function(err, result) {
+  var client = new MemcacheClient({ servers: {'127.0.0.1:11211': '10'} })
+  client.set("foo", "bar", 3341, 0, function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "STORED", "should get result STORED for a SET")
   })
-  client.set("foo", "baz", {noreply: true, flags: 1}, function(err, result) {
+  client.set("foo", "baz", 3341, 1, true, function(err, result) {
     t.error(err, "should get no error")
     t.type(result, 'undefined', "should get result undefined for NOREPLY")
   })
-  client.get(["foo", "bar"], function(err, values) {
+  client.get("foo", function(err, response) {
     t.error(err, "should get no error")
-    t.type(values.foo, 'object', "should get results for key that was set")
-    t.equals(values.foo.flags, 1, "should get correct flags")
-    t.equals(values.foo.value.toString(), 'baz', "should get correct value")
-    t.type(values.bar, 'undefined', "should get no result for key that wasn't set")
+    t.type(response, 'object', "should get results for key that was set")
+    t.equals(response.flags, 1, "should get correct flags")
+    t.equals(response.value.toString(), 'baz', "should get correct value")
+    t.end()
   })
   client.remove("foo", function(err, result) {
     t.error(err, "should get no error")
@@ -28,14 +28,14 @@ test("can talk to memcache", function(t) {
     t.error(err, "should get no error")
     t.equals(result, 'NOT_FOUND', "should get NOT_FOUND on deleting non-existent key")
   })
-  client.set("foo", "bär", {noreply: true}, function(err, result) {
+  client.set("foo", "bär", 3341, 0, true, function(err, result) {
     t.error(err, "should get no error")
     t.type(result, 'undefined', "should get no response on NOREPLY")
   })
-  client.get("foo", function(err, value, meta) {
+  client.get("foo", function(err, response) {
     t.error(err, "should get no error")
-    t.equals(value, "bär", "should get the result as a string")
-    t.equals(meta.flags, 0, "should get the right flags")
+    t.equals(response.value.toString(), "bär", "should get the result as a string")
+    t.equals(response.flags, 0, "should get the right flags")
     t.end()
     client.close()
   })
