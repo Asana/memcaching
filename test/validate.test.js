@@ -7,7 +7,7 @@ test("validation cleanup", function(t) {
     flags: 2,
     cas: "3321",
     value: 23,
-    noreply: true
+    noreply: 1
   }
 
   params = validate(params)
@@ -16,7 +16,7 @@ test("validation cleanup", function(t) {
   t.ok(Buffer.isBuffer(params.value))
   t.equal(params.value.toString(), '23')
   t.equal(params.cas, "3321")
-  t.equal(params.noreply, "noreply")
+  t.equal(params.noreply, true)
   t.end()
 })
 

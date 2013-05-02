@@ -22,8 +22,8 @@ test("can use cas with memcache", function(t) {
     t.error(err, "should get no error")
     t.equals(result.length, 1, "only get one result")
     t.same(result[0].slice(0,3), ["foo", "bar", 0])
+
     var cas = result[0][3]
-    console.log("GOT CAS", cas, typeof cas)
     t.type(cas, 'string', "cas must be a string")
 
     client.cas("foo", "baz", 3341, 1, cas, function(err, result) {
