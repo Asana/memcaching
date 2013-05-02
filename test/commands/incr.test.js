@@ -32,7 +32,20 @@ test("incr", function(t) {
   })
 })
 
-test("error", function(t) {
+test("incr noreply", function(t) {
+  var responder = Responder()
+
+  IncrementCommand({
+    verb: "incr", key: "foobar", increment: 2, noreply: true
+  }, responder, function(err, msg) {
+    t.error(err)
+    t.same(responder.input, [["incr", "foobar", 2, "noreply"]])
+    t.false(msg)
+    t.end()
+  })
+})
+
+test("incr error", function(t) {
   var responder = Responder()
 
   IncrementCommand({
@@ -47,4 +60,17 @@ test("error", function(t) {
   })
 })
 
+test("incr stream error", function(t) {
+  var responder = Responder()
 
+  IncrementCommand({
+    verb: "incr", key: "foobar", increment: "blah blah"
+  }, responder.respond(
+    'CLIENT_ERROR invalid numeric delta argument'
+  ), function(err, msg) {
+    t.same(responder.input, [["incr", "foobar", "blah blah"]])
+    t.equals(err, 'CLIENT_ERROR invalid numeric delta argument')
+    t.error(msg)
+    t.end()
+  })
+})
