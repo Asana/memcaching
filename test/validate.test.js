@@ -15,7 +15,7 @@ test("validation cleanup", function(t) {
   t.same(params.keys, ["hello"])
   t.ok(Buffer.isBuffer(params.value))
   t.equal(params.value.toString(), '23')
-  t.equal(params.cas, 3321)
+  t.equal(params.cas, "3321")
   t.equal(params.noreply, "noreply")
   t.end()
 })
@@ -37,6 +37,8 @@ test("validation errors", function(t) {
   v('flags', {}, /integer/)
   v('blah', {}, /unrecognized/)
   v('keys', [' '], /keys\[0\].*whitespace/)
+  v('cas', 1023, /string/)
+  v('cas', "bla bla", /numeric/)
   t.end()
 })
 
@@ -46,7 +48,7 @@ test("multiple validation errors", function(t) {
     key: {},
     keys: ["foo bar", "hello", "hello world"],
     flags: "wrong flags",
-    cas: 1.023,
+    cas: "bla bla",
     increment: "bah",
     blah: "foo"
   }

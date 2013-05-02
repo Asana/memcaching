@@ -1,4 +1,4 @@
-var MemcacheClient = require('../lib/memcacheclient')
+var MemcacheClient = require('../../lib/memcacheclient')
   , test = require('tap').test
 
 console.log("This test requires a running memcache server on port 11211")
@@ -21,7 +21,7 @@ test("can talk to memcache", function(t) {
   client.mget(["foo", "bar"], function(err, result) {
     t.error(err, "should get no error")
     t.equals(result.length, 1, "only get one result")
-    t.same(result[0], ["foo", "baz", 1, undefined])
+    t.same(result[0], ["foo", "baz", 1])
   })
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
@@ -40,8 +40,8 @@ test("can talk to memcache", function(t) {
     t.equals(result, 'DELETED', "should get DELETED on successful delete")
   })
   client.remove("bar", function(err, result) {
-    t.error(err, "should get no error")
-    t.equals(result, 'NOT_FOUND', "should get NOT_FOUND on deleting non-existent key")
+    t.equals(err, 'NOT_FOUND', "should get NOT_FOUND on deleting non-existent key")
+    t.false(result)
   })
   client.set("foo", "bär", 3341, 0, true, function(err, result) {
     t.error(err, "should get no error")

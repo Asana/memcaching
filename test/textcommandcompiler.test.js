@@ -1,38 +1,19 @@
 var TextCommandCompiler = require('../lib/textcommandcompiler')
   , test = require('tap').test
-
-function Responder() {
-  this.input = []
-  this.responders = []
-}
-
-Responder.prototype = {
-  send: function(message) {
-    console.log("send")
-    this.input.push(message)
-  },
-  recv: function() {
-    console.log("recv")
-    var responder = this.responders.shift()
-    return responder.apply(null, arguments)
-  },
-  respond: function(cb) {
-    this.responders.push(cb)
-  }
-}
+  , Responder = require('./responder')
 
 test("touch", function(t) {
   var cmd = TextCommandCompiler({
     verb: "touch", key: "foobar", exptime: 3341
   }, function(err, msg) {
     t.error(err)
-    t.equals(msg, "OK")
+    t.equals(msg, "TOUCHED")
     t.same(responder.input, [["touch", "foobar", 3341]])
   })
 
   var responder = new Responder
   responder.respond(function(cb) {
-    cb(null, 'OK')
+    cb(null, 'TOUCHED')
   })
 
   cmd(responder, function() {
@@ -64,7 +45,7 @@ test("get", function(t) {
     verb: "get", keys: "foobar"
   }, function(err, resp) {
     t.error(err)
-    t.same(resp, [['foobar', 'hello world', 0, undefined]])
+    t.same(resp, [['foobar', 'hello world', 0]])
     t.same(responder.input, [['get', 'foobar']])
   })
 

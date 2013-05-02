@@ -4,7 +4,7 @@
   "description": "Library to speak the memcache text protocol",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/tap test"
+    "test": "./node_modules/.bin/tap $(find test -iname '*.test.js')"
   },
   "repository": "",
   "author": "",
