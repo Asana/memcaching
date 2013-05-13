@@ -60,7 +60,7 @@ test("multiple validation errors", function(t) {
     error = e
   }
   t.type(error, Error)
-  t.equals(error.name, "MultipleValidationError")
+  t.equals(error.name, "Invalid arguments")
   t.same(error.params, ["verb", "key", "keys", "flags", "cas", "increment", "blah"])
   t.end()
 })
