@@ -25,6 +25,10 @@ test("can talk to memcache", function(t) {
     t.equals(result.length, 1, "only get one result")
     t.same(result[0], ["foo", "baz", 1])
   })
+  client.get("bar", function(err, result) {
+    t.error(err, "should get no error")
+    t.type(result, "undefined", "no result")
+  })
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "OK", "should get result OK for a FLUSH")

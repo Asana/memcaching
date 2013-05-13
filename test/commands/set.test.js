@@ -29,3 +29,19 @@ test("set noreply", function(t) {
     t.end()
   })
 })
+
+test("set error", function(t) {
+  var responder = Responder()
+
+  SetCommand({
+    verb: "cas", key: "foobar", exptime: 3341, flags: 5, cas: '123', value: "hello world"
+  }, responder.respond(
+    null, 'EXISTS'
+  ), function(err, msg) {
+    t.equals(err, 'EXISTS')
+    t.false(msg)
+    t.same(responder.input, [["cas", "foobar", 5, 3341, 11, '123'], "hello world"])
+    t.end()
+  })
+})
+

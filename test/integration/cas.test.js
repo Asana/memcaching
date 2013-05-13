@@ -18,6 +18,10 @@ test("can use cas with memcache", function(t) {
     t.equals(err, "EXISTS", "should error")
     t.error(result)
   })
+  client.cas("bar", "baz", 3341, 1, '12345', function(err, result) {
+    t.equals(err, "NOT_FOUND", "should error")
+    t.error(result)
+  })
   client.mgets(["foo", "bar"], function(err, result) {
     t.error(err, "should get no error")
     t.equals(result.length, 1, "only get one result")
