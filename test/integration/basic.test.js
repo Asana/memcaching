@@ -55,7 +55,6 @@ test("can talk to memcache", function(t) {
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "OK", "should get result OK for a FLUSH")
-    client.close()
     t.end()
   })
 })
