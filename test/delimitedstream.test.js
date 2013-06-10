@@ -19,7 +19,10 @@ test("read delimited messages", function(t) {
   setTimeout(function() {
     stream.write("msg1\r\nms")
     setTimeout(function() {
-      stream.write("g1----msg2----msg2----")
+      stream.write("g1----msg2----msg2")
+      setTimeout(function() {
+        stream.write("----")
+      }, 5)
     }, 5)
   }, 5)
 })
