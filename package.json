@@ -1,6 +1,6 @@
 {
   "name": "memcaching",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library to speak the memcache text protocol",
   "main": "index.js",
   "scripts": {
