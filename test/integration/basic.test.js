@@ -5,13 +5,12 @@ console.log("This test requires a running memcache server on port 11211")
 
 test("can talk to memcache", function(t) {
   var client = new MemcacheClient({ unref: false })
-  client.addServer({'127.0.0.1:11211': '10'})
+  client.addServer('127.0.0.1:11211')
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "OK", "should get result OK for a FLUSH")
   })
-  client.prefix = "test:"
   client.set("foo", "bar", 3341, 0, function(err, result) {
     t.error(err, "should get no error")
     t.equals(result, "STORED", "should get result STORED for a SET")

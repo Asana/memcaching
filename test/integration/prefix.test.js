@@ -5,7 +5,7 @@ console.log("This test requires a running memcache server on port 11211")
 
 test("can use prefixes correctly", function(t) {
   var client = new MemcacheClient({ unref: false })
-  client.addServer({'127.0.0.1:11211': '10'})
+  client.addServer('127.0.0.1:11211')
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
