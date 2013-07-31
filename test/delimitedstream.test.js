@@ -79,3 +79,28 @@ test("handle errors in the stream", function(t) {
   stream.write("msg1----")
   stream.emit('error', "something bad happened")
 })
+
+test("handle end-of-stream", function(t) {
+  var stream = PassThrough()
+    , testStream = DelimitedStream(stream, "----")
+
+  testStream.recv(function(err, msg1) {
+    t.error(err, "no error")
+    t.equal(msg1.toString(), "msg1", "msg1 should be intact")
+    testStream.recv(function(err, msg) {
+      t.same(err, Error("read after end"), "got error reading during end")
+      t.type(msg, 'undefined', "no response")
+      t.throws(function() {
+        testStream.send("foo")
+      }, Error("write after end"), "got error writing after end")
+      testStream.recv(function(err, msg) {
+        t.same(err, Error("read after end"), "got error reading after end")
+        t.type(msg, 'undefined', "no response")
+        t.end()
+      })
+    })
+    stream.end()
+  })
+
+  stream.write("msg1----ms")
+})
