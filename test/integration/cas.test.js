@@ -1,10 +1,10 @@
 var MemcacheClient = require('../../lib/memcacheclient')
+  , MemcacheServer = require('./memcacheserver')
   , test = require('tap').test
 
-console.log("This test requires a running memcache server on port 11211")
-
 test("can use cas with memcache", function(t) {
-  var client = new MemcacheClient({ servers: [ '127.0.0.1:11211' ] })
+  var server = new MemcacheServer()
+  var client = new MemcacheClient({ servers: [ '127.0.0.1:' + server.port ] })
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
@@ -37,6 +37,7 @@ test("can use cas with memcache", function(t) {
     client.flush(0, function(err, result) {
       t.error(err, "should get no error")
       t.equals(result, "OK", "should get result OK for a FLUSH")
+      server.end()
       t.end()
     })
   })

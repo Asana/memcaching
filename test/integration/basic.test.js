@@ -1,11 +1,11 @@
 var MemcacheClient = require('../../lib/memcacheclient')
+  , MemcacheServer = require('./memcacheserver')
   , test = require('tap').test
 
-console.log("This test requires a running memcache server on port 11211")
-
 test("can talk to memcache", function(t) {
+  var server = new MemcacheServer()
   var client = new MemcacheClient({ unref: false })
-  client.addServer('127.0.0.1:11211')
+  client.addServer('127.0.0.1:' + server.port)
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
@@ -61,6 +61,7 @@ test("can talk to memcache", function(t) {
     t.error(err, "should get no error")
     t.equals(result, "OK", "should get result OK for a FLUSH")
     client.end()
+    server.end()
     t.end()
   })
 })
