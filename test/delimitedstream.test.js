@@ -27,6 +27,28 @@ test("read delimited messages", function(t) {
   }, 5)
 })
 
+test("split delimiter", function(t) {
+  var stream = PassThrough()
+    , testStream = DelimitedStream(stream, "----")
+
+  testStream.recv(function(err, msg1) {
+    t.error(err, "no error")
+    t.equal(msg1.toString(), "msg1", "msg1 should be intact")
+    testStream.recv(function(err, msg2) {
+      t.error(err, "no error")
+      t.equal(msg2.toString(), "msg2", "msg2 should be intact")
+      t.end()
+    })
+  })
+
+  setTimeout(function() {
+    stream.write("msg1--")
+    setTimeout(function() {
+      stream.write("--msg2----")
+    }, 5)
+  }, 5)
+})
+
 test("process messages in-order", function(t) {
   var stream = PassThrough()
     , testStream = DelimitedStream(stream, " ")

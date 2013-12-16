@@ -10,7 +10,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "buffers": "~0.1.1",
     "callback-timeout": "~0.1.0"
   },
   "devDependencies": {
