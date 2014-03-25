@@ -110,13 +110,22 @@ test("handle end-of-stream", function(t) {
     t.error(err, "no error")
     t.equal(msg1.toString(), "msg1", "msg1 should be intact")
     testStream.recv(function(err, msg) {
-      t.same(err, Error("read after end"), "got error reading during end")
+      t.same(err, {
+        name: "DisconnectedError",
+        message: "Attempted to read after the connection was closed"
+      }, "got error reading during end")
       t.type(msg, 'undefined', "no response")
       t.throws(function() {
         testStream.send("foo")
-      }, Error("write after end"), "got error writing after end")
+      }, {
+        name: "DisconnectedError",
+        message: "Attempted to write after the connection was closed"
+      }, "got error writing after end")
       testStream.recv(function(err, msg) {
-        t.same(err, Error("read after end"), "got error reading after end")
+        t.same(err, {
+          name: "DisconnectedError",
+          message: "Attempted to read after the connection was closed"
+        }, "got error reading after end")
         t.type(msg, 'undefined', "no response")
         t.end()
       })
