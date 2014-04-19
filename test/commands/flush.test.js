@@ -1,4 +1,4 @@
-var FlushCommand = require('../../lib/commands/flush')
+var FlushCommand = require('../../lib/commands')['flush_all']
   , test = require('tap').test
   , Responder = require('../responder')
 

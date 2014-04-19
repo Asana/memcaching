@@ -1,4 +1,4 @@
-var IncrementCommand = require('../../lib/commands/incr')
+var IncrementCommand = require('../../lib/commands')['incr']
   , test = require('tap').test
   , Responder = require('../responder')
 

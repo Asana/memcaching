@@ -1,4 +1,4 @@
-var TouchCommand = require('../../lib/commands/touch')
+var TouchCommand = require('../../lib/commands')['touch']
   , test = require('tap').test
   , Responder = require('../responder')
 
