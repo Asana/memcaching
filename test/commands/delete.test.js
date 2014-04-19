@@ -1,4 +1,4 @@
-var DeleteCommand = require('../../lib/commands/delete')
+var DeleteCommand = require('../../lib/commands')['delete']
   , test = require('tap').test
   , Responder = require('../responder')
 
