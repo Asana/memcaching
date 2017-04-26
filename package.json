@@ -1,6 +1,6 @@
 {
   "name": "memcaching",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Library to speak the memcache text protocol",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "callback-timeout": "~0.1.0"
+    "callback-timeout": "~3.0.0"
   },
   "devDependencies": {
     "tap": "~0.4.2"
