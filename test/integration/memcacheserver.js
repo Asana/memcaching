@@ -1,12 +1,11 @@
 var child_process = require('child_process')
-var env = process ? process.env : require('process').env
 
 var available_port = 11234
 
 function MemcacheServer(port) {
   this.process = null
-  if (env.MEMCACHING_TEST_HOST) {
-    this.host = env.MEMCACHING_TEST_HOST
+  if (process.env.MEMCACHING_TEST_HOST) {
+    this.host = process.env.MEMCACHING_TEST_HOST
   } else {
     this.port = port || available_port++
     this.host = '127.0.0.1:' + this.port
