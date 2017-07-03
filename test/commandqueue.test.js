@@ -1,9 +1,9 @@
 var CommandQueue = require('../lib/commandqueue')
-  , test = require('tap').test
+var test = require('tap').test
 
 test("CommandQueue makes sure each command gets access to the resource in order", function(t){
   var results = []
-  var queue = CommandQueue(results)
+  var queue = new CommandQueue(results)
   var calls = 0
 
   function command(msg) {
