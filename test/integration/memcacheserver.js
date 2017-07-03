@@ -1,6 +1,6 @@
 var child_process = require('child_process')
 
-var available_port = 11234
+var available_port = 9234
 
 function MemcacheServer(port) {
   this.port = port || available_port++
