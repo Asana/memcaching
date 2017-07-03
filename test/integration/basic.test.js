@@ -5,7 +5,7 @@ var MemcacheClient = require('../../lib/memcacheclient')
 test("can talk to memcache", function(t) {
   var server = new MemcacheServer()
   var client = new MemcacheClient({ unref: false })
-  client.addServer('127.0.0.1:' + server.port)
+  client.addServer(server.host)
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
