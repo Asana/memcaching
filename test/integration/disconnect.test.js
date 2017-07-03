@@ -4,7 +4,14 @@ var MemcacheClient = require('../../lib/memcacheclient')
 
 test("can talk to memcache", function(t) {
   var server = new MemcacheServer()
-  var client = new MemcacheClient({ servers: ['127.0.0.1:' + server.port] })
+  if (server.process === null) {
+    console.log("In CI, skipping disconnect test")
+    // When running in CI we can't start our own memcached instance - this test
+    // doesn't really work in that case, so skip it.
+    t.end()
+    return
+  }
+  var client = new MemcacheClient({ servers: [server.host] })
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
@@ -25,4 +32,3 @@ test("can talk to memcache", function(t) {
     })
   })
 })
-
