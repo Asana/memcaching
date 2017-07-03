@@ -4,7 +4,7 @@ var DelimitedStream = require('../lib/delimitedstream')
 
 test("read delimited messages", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, "----")
+    , testStream = new DelimitedStream(stream, "----")
 
   testStream.recv(function(err, msg1) {
     t.error(err, "no error")
@@ -29,7 +29,7 @@ test("read delimited messages", function(t) {
 
 test("split delimiter", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, "----")
+    , testStream = new DelimitedStream(stream, "----")
 
   testStream.recv(function(err, msg1) {
     t.error(err, "no error")
@@ -51,7 +51,7 @@ test("split delimiter", function(t) {
 
 test("process messages in-order", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, " ")
+    , testStream = new DelimitedStream(stream, " ")
 
   stream.write("hello ")
 
@@ -73,7 +73,7 @@ test("process messages in-order", function(t) {
 
 test("write delimited messages", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, "----")
+    , testStream = new DelimitedStream(stream, "----")
 
   testStream.send("foobar")
   testStream.send("hello")
@@ -86,7 +86,7 @@ test("write delimited messages", function(t) {
 
 test("handle errors in the stream", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, "----")
+    , testStream = new DelimitedStream(stream, "----")
 
   testStream.recv(function(err, msg1) {
     t.error(err, "no error")
@@ -104,28 +104,20 @@ test("handle errors in the stream", function(t) {
 
 test("handle end-of-stream", function(t) {
   var stream = PassThrough()
-    , testStream = DelimitedStream(stream, "----")
+    , testStream = new DelimitedStream(stream, "----")
 
   testStream.recv(function(err, msg1) {
     t.error(err, "no error")
     t.equal(msg1.toString(), "msg1", "msg1 should be intact")
+    var expected_error =
     testStream.recv(function(err, msg) {
-      t.same(err, {
-        name: "DisconnectedError",
-        message: "Attempted to read after the connection was closed"
-      }, "got error reading during end")
+      t.same(err, new DelimitedStream.ReadAfterDisconnectedError("read"), "got error reading during end")
       t.type(msg, 'undefined', "no response")
       t.throws(function() {
         testStream.send("foo")
-      }, {
-        name: "DisconnectedError",
-        message: "Attempted to write after the connection was closed"
-      }, "got error writing after end")
+      }, new DelimitedStream.ReadAfterDisconnectedError("write"), "got error writing after end")
       testStream.recv(function(err, msg) {
-        t.same(err, {
-          name: "DisconnectedError",
-          message: "Attempted to read after the connection was closed"
-        }, "got error reading after end")
+        t.same(err, new DelimitedStream.ReadAfterDisconnectedError("read"), "got error reading after end")
         t.type(msg, 'undefined', "no response")
         t.end()
       })
