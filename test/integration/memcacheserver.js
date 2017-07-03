@@ -1,5 +1,5 @@
 var child_process = require('child_process')
-var env = require('process').env
+var env = process ? process.env : require('process').env
 
 var available_port = 11234
 
