@@ -4,7 +4,7 @@ var MemcacheClient = require('../../lib/memcacheclient')
 
 test("can use cas with memcache", function(t) {
   var server = new MemcacheServer()
-  var client = new MemcacheClient({ servers: [ server.host ] })
+  var client = new MemcacheClient({ servers: [ server.host ], unref: false })
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
@@ -37,6 +37,7 @@ test("can use cas with memcache", function(t) {
     client.flush(0, function(err, result) {
       t.error(err, "should get no error")
       t.equals(result, "OK", "should get result OK for a FLUSH")
+      client.end()
       server.end()
       t.end()
     })
