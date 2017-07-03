@@ -4,7 +4,7 @@
   "description": "Library to speak the memcache text protocol",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/tap $(find test -iname '*.test.js')"
+    "test": "./node_modules/.bin/tap --strict $(find test -iname '*.test.js')"
   },
   "repository": "",
   "author": "",
@@ -13,6 +13,6 @@
     "callback-timeout": "~0.1.0"
   },
   "devDependencies": {
-    "tap": "~0.4.2"
+    "tap": "~10.7.0"
   }
 }

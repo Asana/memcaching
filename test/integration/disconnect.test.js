@@ -11,7 +11,7 @@ test("can talk to memcache", function(t) {
     t.end()
     return
   }
-  var client = new MemcacheClient({ servers: [server.host] })
+  var client = new MemcacheClient({ servers: [server.host], unref: false })
 
   client.flush(0, function(err, result) {
     t.error(err, "should get no error")
