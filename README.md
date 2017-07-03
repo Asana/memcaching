@@ -1,4 +1,4 @@
-# Memcaching
+# Memcaching [![Build Status](https://travis-ci.org/Asana/memcaching.svg?branch=master)](https://travis-ci.org/Asana/memcaching)
 
 The central goal of Memcaching is simplicity: to create a Memcache client that is made up of components that do precisely one thing, and combine those components in an easy-to-understand way.
 
