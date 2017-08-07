@@ -10,11 +10,9 @@ function Responder() {
 
 Responder.prototype = {
   send: function(message) {
-    console.log("send")
     this.input.push(message)
   },
   recv: function() {
-    console.log("recv")
     var responder = this.responders.shift()
     return responder.apply(null, arguments)
   },
