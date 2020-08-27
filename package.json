@@ -10,7 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "callback-timeout": "~0.1.0"
+    "callback-timeout": "~0.2.0"
   },
   "devDependencies": {
     "tap": "~10.7.0"
